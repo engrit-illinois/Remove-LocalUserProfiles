@@ -38,7 +38,7 @@ $logPath = "$logDir\$($moduleName)_RunAsMECMScript_$($timestamp).log"
 "Downloading module content from `"$moduleURL`"..." | Out-File $logPath -Append
 $webrequest = Invoke-WebRequest -Uri $moduleURL
 if($webrequest.StatusCode -ne 200) {
-	Write-Output "Could not download module!"
+	Write-Output "Could not download module!" | Tee-Object -FilePath $logPath -Append
 }
 else {
 	# Save module content to file
@@ -51,7 +51,7 @@ else {
 	Set-ExecutionPolicy "Bypass" -Scope "Process" -Force
 	
 	if((Get-ExecutionPolicy) -ne "Bypass") {
-		Write-Output "ExecutionPolicy not bypassed!"
+		Write-Output "ExecutionPolicy not bypassed!" | Tee-Object -FilePath $logPath -Append
 	}
 	else {
 		# Import module
