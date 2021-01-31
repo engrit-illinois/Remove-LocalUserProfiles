@@ -8,21 +8,26 @@ function Remove-LocalUserProfiles {
 		[Parameter(Mandatory=$true)]
 		[int]$DeleteProfilesOlderThan,
 		
-		# Timeout gracefully because MECM Run Scripts feature will timeout ungracefully at 60 mins
+		# Timeout gracefully via self-regulation because MECM Run Scripts feature will timeout ungracefully at 60 mins
+		# Recommended to make this a few minutes less than the expected ungraceful timeout
 		[Parameter(Mandatory=$true)]
 		[int]$TimeoutMins,
 		
 		# Comma-separated list of NetIDs
 		[string]$ExcludedUsers,
 		
-		[string]$Log = "c:\engrit\logs\Remove-LocalUserProfiles_MECM-TS_$(Get-Date -Format `"yyyy-MM-dd_HH-mm-ss`").log",
-			
+		# A starting lowball (i.e. minimum) estimate for how long it will take to delete a single profile
+		# This will become more accurate once we clock the actual deletions
 		[int]$DeletionTimeEstimateMins = 1,
+		
+		[string]$Log = "c:\engrit\logs\Remove-LocalUserProfiles_$(Get-Date -Format `"yyyy-MM-dd_HH-mm-ss`").log",
+		
+		[string]$TSVersion = "unspecified",
 		
 		[switch]$Loud
 	)
 
-	$VERSION = "1.5"
+	$SCRIPT_VERSION = "v1.5"
 
 	function log($msg) {
 		$ts = Get-Date -Format "yyyy-MM-dd HH:mm:ss:ffff"
@@ -45,8 +50,6 @@ function Remove-LocalUserProfiles {
 		exit
 	}
 
-
-
 	$startTime = Get-Date
 	$endTime = $startTime.AddMinutes($TimeoutMins)
 	$timedOut = $false
@@ -56,11 +59,10 @@ function Remove-LocalUserProfiles {
 	$profilesDeleted = 0
 	$profilesFailed = 0
 
-	log "Script version: `"$VERSION`""
+	log "Script version: `"$SCRIPT_VERSION`""
+	log "TS version: `"$TSVersion`""
 	log "-DeleteProfilesOlderThan: `"$DeleteProfilesOlderThan`""
 	log "-ExcludedUsers: `"$ExcludedUsers`""
-
-
 
 	if($DeleteProfilesOlderThan -lt 1) {
 		Quit "-DeleteProfilesOlderThan value is less than 1!"
