@@ -36,12 +36,25 @@ $logPath = "$logDir\$($moduleName)_RunAsMECMScript_$($timestamp).log"
 
 # Download module
 "Downloading module from `"$moduleURL`"..." | Out-File $logPath -Append
-Invoke-WebRequest -Uri $moduleURL | Out-File $modulePath
+$webrequest = Invoke-WebRequest -Uri $moduleURL
+if($webrequest.StatusCode -ne 200) {
+	Write-Output "Could not download module!"
+}
+else {
+	$moduleContent = $webrequest.Content
 
-# Import module
-"Importing module from `"$modulePath`"..." | Out-File $logPath -Append
-Import-Module $modulePath -Force
+	# Temporarily bypassing ExecutionPolicy
+	$exePolicy = Get-ExecutionPolicy
+	Set-ExecutionPolicy Bypass
 
-# Run module
-"Running module..." | Out-File $logPath -Append
-Remove-LocalUserProfiles -DeleteProfilesOlderThan $DeleteProfilesOlderThan -ExcludedUsers $ExcludedUsers -TimeoutMins $TimeoutMins -TSVersion "Running as MECM Script" | Tee-Object -FilePath $logPath -Append
+	# Import module
+	"Importing module from `"$modulePath`"..." | Out-File $logPath -Append
+	Import-Module $modulePath -Force
+
+	# Run module
+	"Running module..." | Out-File $logPath -Append
+	Remove-LocalUserProfiles -DeleteProfilesOlderThan $DeleteProfilesOlderThan -ExcludedUsers $ExcludedUsers -TimeoutMins $TimeoutMins -TSVersion "Running as MECM Script" | Tee-Object -FilePath $logPath -Append
+
+	# Restore original ExecutionPolicy
+	Set-ExecutionPolicy $exePolicy
+}

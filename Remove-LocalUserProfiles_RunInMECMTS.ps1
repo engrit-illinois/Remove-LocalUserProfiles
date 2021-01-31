@@ -12,14 +12,20 @@ $logPath = $tsEnv.Value('EngrIT_LogPath')
 "Initializing log..." | Out-File $logPath
 
 # Delete module if it already exists in the local path
-if(!(Test-Path -PathType leaf -Path $Log)) {
-			New-Item -ItemType File -Force -Path $Log | Out-Null
-		}
+if(Test-Path -PathType leaf -Path $modulePath) {
+	Remove-Item -Path $modulePath -Force
+}
 
 # Download module
 $moduleURL = $tsEnv.Value('EngrIT_ModuleURL')
 "Downloading module from `"$moduleURL`"..." | Out-File $logPath -Append
-Invoke-WebRequest -Uri $moduleURL | Out-File $modulePath
+$webrequest = Invoke-WebRequest -Uri $moduleURL
+if($webrequest.StatusCode -eq 200) {
+	$moduleContent = $webrequest.Content
+}
+else {
+	throw "Could not download module!"
+}
 
 # Import module
 "Importing module from `"$modulePath`"..." | Out-File $logPath -Append
