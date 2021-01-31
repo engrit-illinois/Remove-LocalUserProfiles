@@ -4,20 +4,21 @@
 # Get access to TS variables
 $tsEnv = New-Object -COMObject Microsoft.SMS.TSEnvironment
 
-# Get local path variables
+# Get parameter variables
+$DeleteProfilesOlderThan = $tsEnv.Value('EngrIT_DeleteProfilesOlderThan')
+$ExcludedUsers = $tsEnv.Value('EngrIT_ExcludedUsers')
+$TimeoutMins = $tsEnv.Value('EngrIT_TimeoutMins')
+$TSVersion = $tsEnv.Value('EngrIT_TSVersion')
+
+# Set module variables
+$moduleURL = $tsEnv.Value('EngrIT_ModuleURL')
 $modulePath = $tsEnv.Value('EngrIT_ModulePath')
 
 # Initialize log
 $logPath = $tsEnv.Value('EngrIT_LogPath')
 "Initializing log..." | Out-File $logPath
 
-# Delete module if it already exists in the local path
-if(Test-Path -PathType leaf -Path $modulePath) {
-	Remove-Item -Path $modulePath -Force
-}
-
 # Download module content
-$moduleURL = $tsEnv.Value('EngrIT_ModuleURL')
 "Downloading module content from `"$moduleURL`"..." | Out-File $logPath -Append
 $webrequest = Invoke-WebRequest -Uri $moduleURL
 if($webrequest.StatusCode -ne 200) {
@@ -31,12 +32,6 @@ else {
 	# Import module
 	"Importing module from `"$modulePath`"..." | Out-File $logPath -Append
 	Import-Module $modulePath -Force
-
-	# Get parameter variables
-	$age = $tsEnv.Value('EngrIT_DeleteProfilesOlderThan')
-	$excluded = $tsEnv.Value('EngrIT_ExcludedUsers')
-	$timeout = $tsEnv.Value('EngrIT_TimeoutMins')
-	$tsver = $tsEnv.Value('EngrIT_TSVersion')
 
 	# Run module
 	"Running module..." | Out-File $logPath -Append
