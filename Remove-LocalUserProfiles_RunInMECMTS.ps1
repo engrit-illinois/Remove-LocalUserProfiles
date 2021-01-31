@@ -20,23 +20,23 @@ if(Test-Path -PathType leaf -Path $modulePath) {
 $moduleURL = $tsEnv.Value('EngrIT_ModuleURL')
 "Downloading module from `"$moduleURL`"..." | Out-File $logPath -Append
 $webrequest = Invoke-WebRequest -Uri $moduleURL
-if($webrequest.StatusCode -eq 200) {
-	$moduleContent = $webrequest.Content
-}
-else {
+if($webrequest.StatusCode -ne 200) {
 	throw "Could not download module!"
 }
+else {
+	$webrequest.Content | Out-File $modulePath
 
-# Import module
-"Importing module from `"$modulePath`"..." | Out-File $logPath -Append
-Import-Module $modulePath -Force
+	# Import module
+	"Importing module from `"$modulePath`"..." | Out-File $logPath -Append
+	Import-Module $modulePath -Force
 
-# Get parameter variables
-$age = $tsEnv.Value('EngrIT_DeleteProfilesOlderThan')
-$excluded = $tsEnv.Value('EngrIT_ExcludedUsers')
-$timeout = $tsEnv.Value('EngrIT_TimeoutMins')
-$tsver = $tsEnv.Value('EngrIT_TSVersion')
+	# Get parameter variables
+	$age = $tsEnv.Value('EngrIT_DeleteProfilesOlderThan')
+	$excluded = $tsEnv.Value('EngrIT_ExcludedUsers')
+	$timeout = $tsEnv.Value('EngrIT_TimeoutMins')
+	$tsver = $tsEnv.Value('EngrIT_TSVersion')
 
-# Run module
-"Running module..." | Out-File $logPath -Append
-Remove-LocalUserProfiles -DeleteProfilesOlderThan $age -ExcludedUsers $excluded -TimeoutMins $timeout -TSVersion $tsver
+	# Run module
+	"Running module..." | Out-File $logPath -Append
+	Remove-LocalUserProfiles -DeleteProfilesOlderThan $age -ExcludedUsers $excluded -TimeoutMins $timeout -TSVersion $tsver
+}

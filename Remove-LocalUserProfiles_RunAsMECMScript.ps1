@@ -41,20 +41,25 @@ if($webrequest.StatusCode -ne 200) {
 	Write-Output "Could not download module!"
 }
 else {
-	$moduleContent = $webrequest.Content
+	$webrequest.Content | Out-File $modulePath
 
 	# Temporarily bypassing ExecutionPolicy
 	$exePolicy = Get-ExecutionPolicy
-	Set-ExecutionPolicy Bypass
+	Set-ExecutionPolicy "Bypass" -Scope "Process" -Force
+	
+	if((Get-ExecutionPolicy) -ne "Bypass") {
+		Write-Output "ExecutionPolicy not bypassed!"
+	}
+	else {
+		# Import module
+		"Importing module from `"$modulePath`"..." | Out-File $logPath -Append
+		Import-Module $modulePath -Force | Out-File $logPath -Append
 
-	# Import module
-	"Importing module from `"$modulePath`"..." | Out-File $logPath -Append
-	Import-Module $modulePath -Force
-
-	# Run module
-	"Running module..." | Out-File $logPath -Append
-	Remove-LocalUserProfiles -DeleteProfilesOlderThan $DeleteProfilesOlderThan -ExcludedUsers $ExcludedUsers -TimeoutMins $TimeoutMins -TSVersion "Running as MECM Script" | Tee-Object -FilePath $logPath -Append
-
+		# Run module
+		"Running module..." | Out-File $logPath -Append
+		Remove-LocalUserProfiles -DeleteProfilesOlderThan $DeleteProfilesOlderThan -ExcludedUsers $ExcludedUsers -TimeoutMins $TimeoutMins -TSVersion "Running as MECM Script" | Tee-Object -FilePath $logPath -Append
+	}
+	
 	# Restore original ExecutionPolicy
 	Set-ExecutionPolicy $exePolicy
 }
