@@ -35,16 +35,18 @@ $logPath = "$logDir\$($moduleName)_RunAsMECMScript_$($timestamp).log"
 "Initializing log..." | Out-File $logPath
 
 # Download module content
-"Downloading module from `"$moduleURL`"..." | Out-File $logPath -Append
+"Downloading module content from `"$moduleURL`"..." | Out-File $logPath -Append
 $webrequest = Invoke-WebRequest -Uri $moduleURL
 if($webrequest.StatusCode -ne 200) {
 	Write-Output "Could not download module!"
 }
 else {
 	# Save module content to file
+	"Saving module content to `"$modulePath`"..." | Out-File $logPath -Append
 	$webrequest.Content | Out-File $modulePath
 
 	# Temporarily bypassing ExecutionPolicy
+	"Bypassing ExecutionPolicy..." | Out-File $logPath -Append
 	$exePolicy = Get-ExecutionPolicy
 	Set-ExecutionPolicy "Bypass" -Scope "Process" -Force
 	
@@ -62,5 +64,6 @@ else {
 	}
 	
 	# Restore original ExecutionPolicy
+	"Restoring original ExecutionPolicy..." | Out-File $logPath -Append
 	Set-ExecutionPolicy $exePolicy
 }

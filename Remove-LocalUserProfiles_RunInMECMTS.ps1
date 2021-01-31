@@ -18,13 +18,14 @@ if(Test-Path -PathType leaf -Path $modulePath) {
 
 # Download module content
 $moduleURL = $tsEnv.Value('EngrIT_ModuleURL')
-"Downloading module from `"$moduleURL`"..." | Out-File $logPath -Append
+"Downloading module content from `"$moduleURL`"..." | Out-File $logPath -Append
 $webrequest = Invoke-WebRequest -Uri $moduleURL
 if($webrequest.StatusCode -ne 200) {
 	throw "Could not download module!"
 }
 else {
 	# Save module content to file
+	"Saving module content to `"$modulePath`"..." | Out-File $logPath -Append
 	$webrequest.Content | Out-File $modulePath
 
 	# Import module
