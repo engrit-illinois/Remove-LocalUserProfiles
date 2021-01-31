@@ -11,10 +11,15 @@ $modulePath = $tsEnv.Value('EngrIT_ModulePath')
 $logPath = $tsEnv.Value('EngrIT_LogPath')
 "Initializing log..." | Out-File $logPath
 
+# Delete module if it already exists in the local path
+if(!(Test-Path -PathType leaf -Path $Log)) {
+			New-Item -ItemType File -Force -Path $Log | Out-Null
+		}
+
 # Download module
 $moduleURL = $tsEnv.Value('EngrIT_ModuleURL')
 "Downloading module from `"$moduleURL`"..." | Out-File $logPath -Append
-Invoke-WebRequest -Uri $moduleURL -OutFile $modulePath >> $logPath 2>&1
+Invoke-WebRequest -Uri $moduleURL | Out-File $modulePath
 
 # Import module
 "Importing module from `"$modulePath`"..." | Out-File $logPath -Append
@@ -28,4 +33,4 @@ $tsver = $tsEnv.Value('EngrIT_TSVersion')
 
 # Run module
 "Running module..." | Out-File $logPath -Append
-Remove-LocalUserProfiles -DeleteProfilesOlderThan $age -ExcludedUsers $excluded -TimeoutMins $timeout -TSVersion $tsver >> $logPath 2>&1
+Remove-LocalUserProfiles -DeleteProfilesOlderThan $age -ExcludedUsers $excluded -TimeoutMins $timeout -TSVersion $tsver
