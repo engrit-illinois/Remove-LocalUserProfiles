@@ -35,7 +35,6 @@ $logPath = "$logDir\$($moduleName)_RunAsMECMScript_$($timestamp).log"
 "Initializing log..." | Out-File $logPath
 
 # Download module
-$moduleURL = $tsEnv.Value('EngrIT_ModuleURL')
 "Downloading module from `"$moduleURL`"..." | Out-File $logPath -Append
 Invoke-WebRequest -Uri $moduleURL | Out-File $modulePath
 
