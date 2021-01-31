@@ -51,12 +51,12 @@ WIP
 
 This module works as described, however, like many similar solutions out there, it relies on `LastUseTime` property of the `Win32_UserProfile` WMI class.  Due to either Windows bugs, or incompatibilities with other tools, this LastUseTime property (and also alternate data sources, such as the modified time of `NTUSER.dat`) has proven to be completely unreliable as a source for determining when a user last logged in. This appears to be due to these sources being erroneously updated by unknown mechanisms. It seems that this issue has only really been identified since around the v1703-v1709 era of Windows 10. This is very frustrating for IT pros looking to rely on that information.  
 
+I created [Get-LocalUserProfiles](https://github.com/engrit-illinois/Get-LocalUserProfiles) to help workaround this issue by gathering as much data as possible about the state of local user profiles in our environment.  
+
 Sources on the issue:
 - https://techcommunity.microsoft.com/t5/windows-10-deployment/issue-with-date-modified-for-ntuser-dat/m-p/102438
 - https://community.spiceworks.com/topic/2263965-find-last-user-time
 - https://powershell.org/forums/topic/incorrect-information-gets-recorded-in-win32_userprofile-lastusetime-obj/
-
-I created [Get-LocalUserProfiles](https://github.com/engrit-illinois/Get-LocalUserProfiles) to help workaround this issue by gathering as much data as possible about the state of local user profiles in our environment.  
 
 # Credits
 
