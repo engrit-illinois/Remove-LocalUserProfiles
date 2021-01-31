@@ -34,13 +34,14 @@ $timestamp = Get-Date -Format "yyyy-MM-dd_HH-mm-ss"
 $logPath = "$logDir\$($moduleName)_RunAsMECMScript_$($timestamp).log"
 "Initializing log..." | Out-File $logPath
 
-# Download module
+# Download module content
 "Downloading module from `"$moduleURL`"..." | Out-File $logPath -Append
 $webrequest = Invoke-WebRequest -Uri $moduleURL
 if($webrequest.StatusCode -ne 200) {
 	Write-Output "Could not download module!"
 }
 else {
+	# Save module content to file
 	$webrequest.Content | Out-File $modulePath
 
 	# Temporarily bypassing ExecutionPolicy
