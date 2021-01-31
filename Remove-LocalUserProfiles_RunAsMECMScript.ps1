@@ -24,7 +24,7 @@ cmd /c mkdir $scriptDir
 # Set module vars
 $repo = "https://raw.githubusercontent.com/engrit-illinois/Remove-LocalUserProfiles/main"
 $moduleName = "Remove-LocalUserProfiles"
-$moduleNameExt = "psm1"
+$moduleExt = "psm1"
 $moduleFileName = "$($moduleName).$($moduleExt)"
 $moduleURL = "$repo/$moduleFileName"
 $modulePath = "$scriptDir\$moduleFileName"
@@ -41,8 +41,8 @@ Invoke-WebRequest -Uri $moduleURL -OutFile $modulePath >> $logPath 2>&1
 
 # Import module
 "Importing module from `"$modulePath`"..." | Out-File $logPath -Append
-Import-Module $modulePath -Force
+Import-Module $modulePath -Force >> $logPath 2>&1
 
 # Run module
 "Running module..." | Out-File $logPath -Append
-Remove-LocalUserProfiles -DeleteProfilesOlderThan $DeleteProfilesOlderThan -ExcludedUsers $ExcludedUsers -TimeoutMins $TimeoutMins -TSVersion "Running as MECM Script" >> $logPath 2>&1
+Remove-LocalUserProfiles -DeleteProfilesOlderThan $DeleteProfilesOlderThan -ExcludedUsers $ExcludedUsers -TimeoutMins $TimeoutMins -TSVersion "Running as MECM Script" | Tee-Object -FilePath $logPath -Append
