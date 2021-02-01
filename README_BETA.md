@@ -17,6 +17,9 @@ See below for more detailed [context](#context), caveats, and [credits](#credits
 
 # Parameters
 
+### -Computers
+WIP
+
 ### -DeleteProfilesOlderThan
 WIP
 
@@ -29,7 +32,19 @@ WIP
 ### -DeletionTimeEstimateMins
 WIP
 
+### -OUDN
+WIP
+
 ### -Log
+WIP
+
+### -LogPath
+WIP
+
+### -MaxAsyncJobs
+WIP
+
+### -CIMTimeoutSec
 WIP
 
 # Context
