@@ -15,13 +15,13 @@ See below for more detailed [context](#context), caveats, and [credits](#credits
 
 # Parameters
 
-### -DeleteProfilesOlderThan <int>
+### -DeleteProfilesOlderThan \<int\>
 Required integer.  
 The maximum "age" a profile must be to not be deleted.  
 Based on the profile's `LastUseTime` property.  
 See [context](#context) for more details caveats about this.  
 
-### -TimeoutMins <int>
+### -TimeoutMins \<int\>
 Required integer.  
 The maximum number of minutes that the script will run before gracefully aborting.  
 This is to avoid getting ungracefully cut off in the middle of deleting profiles by an external timeout in whatever process in running the script. e.g. The MECM "Run Scripts" feature has a static timeout of 60 mins.  
@@ -29,23 +29,23 @@ It's recommended to provide a buffer of a few minutes, so if the parent process 
 The script keeps track of the longest amount of time it took to delete any profile. If there's less than that much time left before this `-TimeoutMins` value, it will exit before starting to delete another profile.  
 As such, this script is _not_ guaranteed to delete _all_ targeted profiles, if it runs out of time.  
 
-### -ExcludeUsers <string[]>
+### -ExcludeUsers \<string[]\>
 Optional string array.  
 A list of NetIDs to exclude from having their local profiles deleted.  
 e.g. `-ExcludeUsers "netid1","netid2","netid3"`.  
 
-### -DeletionTimeEstimateMins <int>
+### -DeletionTimeEstimateMins \<int\>
 Optional integer.  
 An initial, minimum estimate for how long profiles will take to delete.  
 As the script runs, it will keep track of the longest amount of time it took to delete any profile. This value starts at the value of `-DeletionTimeEstimateMins`, and is updated each time a profile takes longer than that. If there's less than this much time left before the built-in timeout occurs (based on `-TimeoutMins`), the script will exit before starting to delete another profile.  
 Default is `1`.  
 
-### -Log <string>
+### -Log \<string\>
 Optional string.  
 The full path to the log file that will be created.  
 Default is `c:\engrit\logs\Remove-LocalUserProfiles_yyyy-MM-dd_HH-mm-ss.log`.  
 
-### -TSVersion <string>
+### -TSVersion \<string\>
 Optional string.  
 Just a value that is logged.  
 Only useful when running the script from an MECM Task Sequence, via `Remove-LocalUserProfiles_RunInMECMTS.ps1`.  
