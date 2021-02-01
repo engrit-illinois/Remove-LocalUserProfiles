@@ -1,7 +1,5 @@
 # Summary
 
-### WARNING: These scripts are a work in progress.
-
 This Powershell module and companion scripts remove local user profiles from an array of remote computers.  
 
 For gathering information and informing decisions about how to use this module, see [Get-LocalUserProfiles](https://github.com/engrit-illinois/Get-LocalUserProfiles).
