@@ -35,5 +35,5 @@ else {
 
 	# Run module
 	"Running module..." | Out-File $logPath -Append
-	Remove-LocalUserProfiles -DeleteProfilesOlderThan $age -ExcludedUsers $excluded -TimeoutMins $timeout -TSVersion $tsver
+	Remove-LocalUserProfiles -DeleteProfilesOlderThan $DeleteProfilesOlderThan -ExcludedUsers $ExcludedUsers -TimeoutMins $TimeoutMins -TSVersion $TSVersion | Out-File $logPath -Append
 }
