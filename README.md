@@ -11,7 +11,7 @@ See below for more detailed [context](#context), caveats, and [credits](#credits
 1. Download `Remove-LocalUserProfiles.psm1`
 2. Import it as a module: `Import-Module "c:\path\to\Remove-LocalUserProfiles.psm1"`
 3. Run it using the parameters documented below
-- e.g. `Remove-LocalUserProfiles -DeleteProfilesOlderThan 10 -TimeoutMins 55 -ExcludedUsers "netid1","netid2"`
+- e.g. `Remove-LocalUserProfiles -DeleteProfilesOlderThan 10 -TimeoutMins 55 -ExcludeUsers "netid1","netid2"`
 
 # Parameters
 
@@ -29,10 +29,10 @@ It's recommended to provide a buffer of a few minutes, so if the parent process 
 The script keeps track of the longest amount of time it took to delete any profile. If there's less than that much time left before this `-TimeoutMins` value, it will exit before starting to delete another profile.  
 As such, this script is _not_ guaranteed to delete _all_ targeted profiles, if it runs out of time.  
 
-### -ExcludedUsers <string[]>
+### -ExcludeUsers <string[]>
 Optional string array.  
 A list of NetIDs to exclude from having their local profiles deleted.  
-e.g. `-ExcludedUsers "netid1","netid2","netid3"`.  
+e.g. `-ExcludeUsers "netid1","netid2","netid3"`.  
 
 ### -DeletionTimeEstimateMins <int>
 Optional integer.  

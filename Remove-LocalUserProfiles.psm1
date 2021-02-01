@@ -14,7 +14,7 @@ function Remove-LocalUserProfiles {
 		[int]$TimeoutMins,
 		
 		# Comma-separated list of NetIDs
-		[string]$ExcludedUsers,
+		[string]$ExcludeUsers,
 		
 		# A starting lowball (i.e. minimum) estimate for how long it will take to delete a single profile
 		# This will become more accurate once we clock the actual deletions
@@ -62,7 +62,7 @@ function Remove-LocalUserProfiles {
 	log "Script version: `"$SCRIPT_VERSION`""
 	log "TS version: `"$TSVersion`""
 	log "-DeleteProfilesOlderThan: `"$DeleteProfilesOlderThan`""
-	log "-ExcludedUsers: `"$ExcludedUsers`""
+	log "-ExcludeUsers: `"$ExcludeUsers`""
 
 	if($DeleteProfilesOlderThan -lt 1) {
 		Quit "-DeleteProfilesOlderThan value is less than 1!"
@@ -114,10 +114,10 @@ function Remove-LocalUserProfiles {
 					else {
 						log "    $count profiles remain."
 						
-						if($ExcludedUsers) {
-							log "-ExcludedUsers was specified: `"$ExcludedUsers`""
+						if($ExcludeUsers) {
+							log "-ExcludeUsers was specified: `"$ExcludeUsers`""
 							
-							$users = $ExcludedUsers.Split(",")
+							$users = $ExcludeUsers.Split(",")
 							$users = $users.Replace("`"","")
 							log "    users: $users"
 							
@@ -136,7 +136,7 @@ function Remove-LocalUserProfiles {
 							}
 						}
 						else {
-							log "No -ExcludedUsers were specified."
+							log "No -ExcludeUsers were specified."
 						}
 			
 						log "Deleting remaining profiles..."

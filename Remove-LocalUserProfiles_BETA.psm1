@@ -21,7 +21,7 @@ function Remove-LocalUserProfiles {
 		[int]$TimeoutMins,
 		
 		# Comma-separated list of NetIDs
-		[string]$ExcludedUsers,
+		[string]$ExcludeUsers,
 		
 		# Not implemented yet
 		[int]$MaxAsyncJobs = 1,
@@ -135,7 +135,7 @@ function Remove-LocalUserProfiles {
 		log "Script version: `"$SCRIPT_VERSION`""
 		log "TS version: `"$TSVersion`""
 		log "-DeleteProfilesOlderThan: `"$DeleteProfilesOlderThan`""
-		log "-ExcludedUsers: `"$ExcludedUsers`""
+		log "-ExcludeUsers: `"$ExcludeUsers`""
 	}
 
 	function Get-ProfilesFrom($comp) {
@@ -247,10 +247,10 @@ function Remove-LocalUserProfiles {
 					else {
 						log "    $count profiles remain."
 						
-						if($ExcludedUsers) {
-							log "-ExcludedUsers was specified: `"$ExcludedUsers`""
+						if($ExcludeUsers) {
+							log "-ExcludeUsers was specified: `"$ExcludeUsers`""
 							
-							$users = $ExcludedUsers.Split(",")
+							$users = $ExcludeUsers.Split(",")
 							$users = $users.Replace("`"","")
 							log "    users: $users"
 							
@@ -269,7 +269,7 @@ function Remove-LocalUserProfiles {
 							}
 						}
 						else {
-							log "No -ExcludedUsers were specified."
+							log "No -ExcludeUsers were specified."
 						}
 			
 						log "Deleting remaining profiles..."
