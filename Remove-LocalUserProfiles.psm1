@@ -27,7 +27,7 @@ function Remove-LocalUserProfiles {
 		[switch]$Loud
 	)
 
-	$SCRIPT_VERSION = "v1.6"
+	$SCRIPT_VERSION = "v1.7"
 
 	function log($msg) {
 		$ts = Get-Date -Format "yyyy-MM-dd HH:mm:ss:ffff"

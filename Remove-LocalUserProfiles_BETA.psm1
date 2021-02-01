@@ -40,7 +40,7 @@ function Remove-LocalUserProfiles {
 		[switch]$Loud
 	)
 
-	$SCRIPT_VERSION = "v1.6"
+	$SCRIPT_VERSION = "v2.0"
 	
 	function log {
 		param (

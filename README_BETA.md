@@ -1,7 +1,5 @@
 # Summary
 
-### WARNING: These scripts are a work in progress.
-
 This Powershell module and companion scripts remove local user profiles from an array of remote computers.  
 
 For gathering information and informing decisions about how to use this module, see [Get-LocalUserProfiles](https://github.com/engrit-illinois/Get-LocalUserProfiles).
@@ -13,39 +11,79 @@ See below for more detailed [context](#context), caveats, and [credits](#credits
 1. Download `Get-LocalUserProfiles.psm1`
 2. Import it as a module: `Import-Module "c:\path\to\Get-LocalUserProfiles.psm1"`
 3. Run it using the parameters documented below
-- e.g. `Get-LocalUserProfiles -Computers "gelib-4c-*" -Log -Csv -PrintProfilesInRealtime`
+- e.g. `Get-LocalUserProfiles -Computers "gelib-4c-*" -Csv`
 
 # Parameters
 
-### -Computers
-WIP
+### -Computers <string[]>
+Optional string array.  
+Array of computer names and/or computer name wildcard queries to affect.  
+Computers must exist in AD, within the OU specified by `-OUDN`.  
+e.g. `-Computers "gelib-4c-*","eh-406b1-01","mel-1001-*"`  
+If not specified, a value of `$env:ComputerName` will be assumed, i.e. the local computer.  
 
-### -DeleteProfilesOlderThan
-WIP
+### -DeleteProfilesOlderThan <int>
+Required integer.  
+The maximum "age" a profile must be to not be deleted.  
+Based on the profile's `LastUseTime` property.  
+See [context](#context) for more details caveats about this.  
 
-### -TimeoutMins
-WIP
+### -TimeoutMins <int>
+Required integer.  
+The maximum number of minutes that the script will run before gracefully aborting.  
+This is to avoid getting ungracefully cut off in the middle of deleting profiles by an external timeout in whatever process in running the script. e.g. The MECM "Run Scripts" feature has a static timeout of 60 mins.  
+It's recommended to provide a buffer of a few minutes, so if the parent process times out in 60 mins, set this to ~55.  
+The script keeps track of the longest amount of time it took to delete any profile. If there's less than that much time left before this `-TimeoutMins` value, it will exit before starting to delete another profile.  
+As such, this script is _not_ guaranteed to delete _all_ targeted profiles, if it runs out of time.  
 
-### -ExcludedUsers
-WIP
+### -ExcludedUsers <string[]>
+Optional string array.  
+A list of NetIDs to exclude from having their local profiles deleted.  
+e.g. `-ExcludeUsers "netid1","netid2","netid3"`.  
 
-### -DeletionTimeEstimateMins
-WIP
+### -DeletionTimeEstimateMins <int>
+Optional integer.  
+An initial, minimum estimate for how long profiles will take to delete.  
+As the script runs, it will keep track of the longest amount of time it took to delete any profile. This value starts at the value of `-DeletionTimeEstimateMins`, and is updated each time a profile takes longer than that. If there's less than this much time left before the built-in timeout occurs (based on `-TimeoutMins`), the script will exit before starting to delete another profile.  
+Default is `1`.  
 
-### -OUDN
-WIP
+### -OUDN <string>
+Optional string.  
+The OU in which computers given by the value of `-Computers` must exist.  
+Computers not found in this OU will be ignored.  
+Default is `OU=Desktops,OU=Engineering,OU=Urbana,DC=ad,DC=uillinois,DC=edu`.  
 
 ### -Log
-WIP
+Optional switch.  
+If specified, output will be logged to a file at the path specified by `-LogPath`.  
 
-### -LogPath
-WIP
+### -LogPath <string>
+Optional string.  
+The full path to the log file that will be created (if `-Log` was specified).  
+Default is `c:\engrit\logs\Remove-LocalUserProfiles_yyyy-MM-dd_HH-mm-ss.log`.  
 
-### -MaxAsyncJobs
-WIP
+### -MaxAsyncJobs <int>
+Optional integer.  
+The maximum number of asynchronous jobs allowed to be spawned.  
+The script spawns a unique asynchronous process for each computer that it will affect, which significantly cuts down the runtime.  
+Default is `10`, which is very conservative. This is to avoid the potential for network congestion and the possibility of the script being identified as malicious by antimalware processes and external network monitoring.  
+To disable asynchronous jobs and external processes entirely, running everything sequentially in the same process, specify `0`. This will drastically increase runtime for large numbers of computers.  
 
-### -CIMTimeoutSec
-WIP
+### -CIMTimeoutSec <int>
+Optional integer.  
+The number of seconds to wait before timing out `Get-CIMInstance` operations (the mechanism by which the script retrieves profile info from remote computers).  
+Default is 60.  
+
+### -TSVersion <string>
+Optional string.  
+Just a value that is logged.  
+Only useful when running the script from an MECM Task Sequence, via `Remove-LocalUserProfiles_RunInMECMTS.ps1`.  
+Useful for making sure the correct TS was run, when looking at logs.  
+
+### -Loud
+Optional switch.  
+When specified, all log messages are also output to the console.  
+This is off by default because anything output can cause messy return values when running the script from the MECM "Run Scripts" feature, i.e. via `Remove-LocalUserProfiles_RunAsMECMScript.ps1`.  
 
 # Context
 
