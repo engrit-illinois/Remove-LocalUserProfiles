@@ -99,7 +99,7 @@ function Remove-LocalUserProfiles {
 				$count = @($profiles).count
 				
 				if($count -lt 1) {
-					Quit "Zero profiles older than $DeleteProfilesOlderThan found."
+					Quit "Zero profiles older than $DeleteProfilesOlderThan days old were found."
 				}
 				else {
 					log "    $count profiles remain."
@@ -109,7 +109,7 @@ function Remove-LocalUserProfiles {
 					$count = @($profiles).count
 					
 					if($count -lt 1) {
-						Quit "Zero non-system profiles older than $DeleteProfilesOlderThan found."
+						Quit "Zero non-system profiles older than $DeleteProfilesOlderThan days old were found."
 					}
 					else {
 						log "    $count profiles remain."
@@ -129,7 +129,7 @@ function Remove-LocalUserProfiles {
 							$count = @($profiles).count
 							
 							if($count -lt 1) {
-								Quit "Zero non-system, non-excluded profiles older than $DeleteProfilesOlderThan found."
+								Quit "Zero non-system, non-excluded profiles older than $DeleteProfilesOlderThan old were found."
 							}
 							else {
 								log "        $count profiles remain."
