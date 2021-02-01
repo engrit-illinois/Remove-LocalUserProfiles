@@ -32,7 +32,7 @@ As such, this script is _not_ guaranteed to delete _all_ targeted profiles, if i
 ### -ExcludedUsers <string[]>
 Optional string array.  
 A list of NetIDs to exclude from having their local profiles deleted.  
-e.g. `-ExcludeUsers "netid1","netid2","netid3"`.  
+e.g. `-ExcludedUsers "netid1","netid2","netid3"`.  
 
 ### -DeletionTimeEstimateMins <int>
 Optional integer.  
