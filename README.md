@@ -1,6 +1,6 @@
 # Summary
 
-This Powershell module and companion scripts remove local user profiles from an array of remote computers.  
+This Powershell module and companion scripts remove local user profiles from a given array of remote computers.  
 
 For gathering information and informing decisions about how to use this module, see [Get-LocalUserProfiles](https://github.com/engrit-illinois/Get-LocalUserProfiles).
 
