@@ -6,7 +6,7 @@ $tsEnv = New-Object -COMObject Microsoft.SMS.TSEnvironment
 
 # Get parameter variables
 $DeleteProfilesOlderThan = $tsEnv.Value('EngrIT_DeleteProfilesOlderThan')
-$ExcludedUsers = $tsEnv.Value('EngrIT_ExcludedUsers')
+$ExcludeUsers = $tsEnv.Value('EngrIT_ExcludeUsers')
 $TimeoutMins = $tsEnv.Value('EngrIT_TimeoutMins')
 $TSVersion = $tsEnv.Value('EngrIT_TSVersion')
 
@@ -35,5 +35,5 @@ else {
 
 	# Run module
 	"Running module..." | Out-File $logPath -Append
-	Remove-LocalUserProfiles -DeleteProfilesOlderThan $DeleteProfilesOlderThan -ExcludedUsers $ExcludedUsers -TimeoutMins $TimeoutMins -TSVersion $TSVersion | Out-File $logPath -Append
+	Remove-LocalUserProfiles -DeleteProfilesOlderThan $DeleteProfilesOlderThan -ExcludeUsers $ExcludeUsers -TimeoutMins $TimeoutMins -TSVersion $TSVersion | Out-File $logPath -Append
 }

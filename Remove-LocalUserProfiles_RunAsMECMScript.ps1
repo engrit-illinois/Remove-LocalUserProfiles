@@ -5,7 +5,7 @@ param(
 	[Parameter(Mandatory=$true)]
 	[int]$DeleteProfilesOlderThan,
 	
-	[string]$ExcludedUsers,
+	[string]$ExcludeUsers,
 	
 	[int]$TimeoutMins = 55
 )
@@ -60,7 +60,7 @@ else {
 
 		# Run module
 		"Running module..." | Out-File $logPath -Append
-		Remove-LocalUserProfiles -DeleteProfilesOlderThan $DeleteProfilesOlderThan -ExcludedUsers $ExcludedUsers -TimeoutMins $TimeoutMins -TSVersion "Running as MECM Script" | Tee-Object -FilePath $logPath -Append
+		Remove-LocalUserProfiles -DeleteProfilesOlderThan $DeleteProfilesOlderThan -ExcludeUsers $ExcludeUsers -TimeoutMins $TimeoutMins -TSVersion "Running as MECM Script" | Tee-Object -FilePath $logPath -Append
 	}
 	
 	# Restore original ExecutionPolicy
