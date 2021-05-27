@@ -8,9 +8,8 @@ See below for more detailed [context](#context), caveats, and [credits](#credits
 
 # Usage
 
-1. Download `Remove-LocalUserProfiles.psm1`
-2. Import it as a module: `Import-Module "c:\path\to\Remove-LocalUserProfiles.psm1"`
-3. Run it using the parameters documented below
+1. Download `Remove-LocalUserProfiles.psm1` to `$HOME\Documents\WindowsPowerShell\Modules\Remove-LocalUserProfiles\Remove-LocalUserProfiles.psm1`
+2. Run it using the parameters documented below
 - e.g. `Remove-LocalUserProfiles -DeleteProfilesOlderThan 10 -TimeoutMins 55 -ExcludeUsers "netid1","netid2"`
 
 # Parameters
