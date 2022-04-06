@@ -28,9 +28,9 @@ It's recommended to provide a buffer of a few minutes, so if the parent process 
 The script keeps track of the longest amount of time it took to delete any profile. If there's less than that much time left before this `-TimeoutMins` value, it will exit before starting to delete another profile.  
 As such, this script is _not_ guaranteed to delete _all_ targeted profiles, if it runs out of time.  
 
-### -ExcludeUsers \<string[]\>
-Optional string array.  
-A list of NetIDs to exclude from having their local profiles deleted.  
+### -ExcludeUsers \<string\>
+Optional string.  
+A string representing a comma-separated list of NetIDs to exclude from having their local profiles deleted.  
 e.g. `-ExcludeUsers "netid1,netid2,netid3"`.  
 
 ### -DeletionTimeEstimateMins \<int\>
