@@ -18,7 +18,7 @@ See below for more detailed [context](#context), caveats, and [credits](#credits
 Required integer.  
 The maximum "age" a profile must be to not be deleted.  
 Based on the profile's `LastUseTime` property.  
-See [context](#context) for more details caveats about this.  
+See [context](#context) for more details/caveats about this.  
 
 ### -TimeoutMins \<int\>
 Required integer.  
