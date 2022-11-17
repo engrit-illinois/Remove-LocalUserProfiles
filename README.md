@@ -8,9 +8,9 @@ See below for more detailed [context](#context), caveats, and [credits](#credits
 
 # Usage
 
-1. Download `Remove-LocalUserProfiles.psm1` to `$HOME\Documents\WindowsPowerShell\Modules\Remove-LocalUserProfiles\Remove-LocalUserProfiles.psm1`
+1. Download `Remove-LocalUserProfiles.psm1` to the appropriate subdirectory of your PowerShell [modules directory](https://github.com/engrit-illinois/how-to-install-a-custom-powershell-module).
 2. Run it using the parameters documented below
-- e.g. `Remove-LocalUserProfiles -DeleteProfilesOlderThan 10 -TimeoutMins 55 -ExcludeUsers "netid1","netid2"`
+    - e.g. `Remove-LocalUserProfiles -DeleteProfilesOlderThan 10 -TimeoutMins 55 -ExcludeUsers "netid1","netid2"`
 
 # Parameters
 
