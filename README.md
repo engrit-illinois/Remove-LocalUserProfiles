@@ -15,7 +15,7 @@ See below for more detailed [context](#context), caveats, and [credits](#credits
 # Parameters
 
 ### -DeleteProfilesOlderThan \<int\>
-Required integer.  
+Required integer >= `0`.  
 The maximum "age" a profile must be to not be deleted.  
 Based on the profile's `LastUseTime` property.  
 See [context](#context) for more details/caveats about this.  

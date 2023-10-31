@@ -64,8 +64,8 @@ function Remove-LocalUserProfiles {
 	log "-DeleteProfilesOlderThan: `"$DeleteProfilesOlderThan`""
 	log "-ExcludeUsers: `"$ExcludeUsers`""
 
-	if($DeleteProfilesOlderThan -lt 1) {
-		Quit "-DeleteProfilesOlderThan value is less than 1!"
+	if($DeleteProfilesOlderThan -lt 0) {
+		Quit "-DeleteProfilesOlderThan value is less than 0!"
 	}
 	else {
 		$oldestDate = (Get-Date).AddDays(-$DeleteProfilesOlderThan)
@@ -129,7 +129,7 @@ function Remove-LocalUserProfiles {
 							$count = @($profiles).count
 							
 							if($count -lt 1) {
-								Quit "Zero non-system, non-excluded profiles older than $DeleteProfilesOlderThan old were found."
+								Quit "Zero non-system, non-excluded profiles older than $DeleteProfilesOlderThan days old were found."
 							}
 							else {
 								log "        $count profiles remain."
