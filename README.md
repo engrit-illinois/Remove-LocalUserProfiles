@@ -20,6 +20,11 @@ The maximum "age" a profile must be to not be deleted.
 Based on the profile's `LastUseTime` property.  
 See [context](#context) for more details/caveats about this.  
 
+### -UseMinsInsteadOfDays
+Optional switch.  
+If specified, the value given for -DeleteProfilesOlderThan will be treated as a quantity of minutes, instead of days.  
+This was a quick hack, and the module output will still reflect as if days were being used.  
+
 ### -TimeoutMins \<int\>
 Required integer.  
 The maximum number of minutes that the script will run before gracefully aborting.  
