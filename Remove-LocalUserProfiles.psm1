@@ -8,6 +8,8 @@ function Remove-LocalUserProfiles {
 		[Parameter(Mandatory=$true)]
 		[int]$DeleteProfilesOlderThan,
 		
+		[switch]$UseMinsInsteadOfDays,
+		
 		# Timeout gracefully via self-regulation because MECM Run Scripts feature will timeout ungracefully at 60 mins
 		# Recommended to make this a few minutes less than the expected ungraceful timeout
 		[Parameter(Mandatory=$true)]
@@ -69,6 +71,7 @@ function Remove-LocalUserProfiles {
 	}
 	else {
 		$oldestDate = (Get-Date).AddDays(-$DeleteProfilesOlderThan)
+  		if($UseMinsInsteadOfDays) { $oldestDate = (Get-Date).AddMinutes(-$DeleteProfilesOlderThan) }
 		log "oldestDate = $oldestDate"
 		
 		log "Getting profiles..."
