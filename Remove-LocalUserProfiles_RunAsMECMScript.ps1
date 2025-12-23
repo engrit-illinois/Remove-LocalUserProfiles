@@ -36,7 +36,9 @@ $logPath = "$logDir\$($moduleName)_RunAsMECMScript_$($timestamp).log"
 
 # Download module content
 "Downloading module content from `"$moduleURL`"..." | Out-File $logPath -Append
-$webrequest = Invoke-WebRequest -Uri $moduleURL
+$webrequest = Invoke-WebRequest -Uri $moduleURL -UseBasicParsing
+"WebRequest contents:" | Out-File $logPath -Append
+$webrequest | Out-File $logPath -Append
 if($webrequest.StatusCode -ne 200) {
 	Write-Output "Could not download module!" | Tee-Object -FilePath $logPath -Append
 }
