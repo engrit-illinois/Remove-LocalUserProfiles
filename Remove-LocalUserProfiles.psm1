@@ -190,7 +190,7 @@ function Remove-LocalUserProfiles {
 								if($profilesDeleted -gt $startDeleteDeletions) {
 									log "        Time taken to delete: `"$deleteTime`""
 									if($deleteTime -gt $estDeleteTime) {
-										log "        Deletion took longer than current estimate. Updating to `"$estDeleteTime`"."
+										log "        Deletion took longer than current estimate. Updating to `"$deleteTime`"."
 										$estDeleteTime = $deleteTime
 									}
 								}
